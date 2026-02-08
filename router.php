@@ -17,13 +17,15 @@ $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 //USE to debug
 // dd($uri); 
 
-
+//LISTEN FOR URI or endpoints 
 //Check url and see if it matches any pages, map to appropriate controller
 match ($uri) {
      '/' => require('controllers/index.php'), 
      '/about' => require('controllers/about.php'),
      '/contact' => require('controllers/contact.php'),  
-     default => abort(404),
+     '/notes' => require('controllers/notes.php'),
+     '/note' =>require('controllers/note.php'),
+     default => abort(),
 };
 
 
@@ -32,9 +34,15 @@ match ($uri) {
  */
 function abort($status = 404){
     
+
+    http_response_code($status);
     match ($status) {
             404 => require('views/404.view.php'), 
+            403 => require('views/403.view.php'),
             default => require('views/404.view.php'),  //dont know yet 
         };
+    
+    
+        die();
 }
 
