@@ -23,6 +23,7 @@
      * Check if url is  matches the current request uri
      */
     function urlIs($url){
+
         return $_SERVER['REQUEST_URI'] === $url; 
     }
 

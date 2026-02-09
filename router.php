@@ -1,7 +1,8 @@
 <?php
 
 //The rotuer file will be deidcated to parsing the Uri and handling routing to controllers
-
+//LISTEN FOR URI or endpoints 
+//Check url and see if it matches any pages, map to appropriate controller
 
 
 //Urls can contain querys remember in apis how you request things so we must parse
@@ -12,21 +13,30 @@
 //   string(7) "foo=bar"
 // }
 
-$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 
-//USE to debug
-// dd($uri); 
 
-//LISTEN FOR URI or endpoints 
-//Check url and see if it matches any pages, map to appropriate controller
-match ($uri) {
-     '/' => require('controllers/index.php'), 
-     '/about' => require('controllers/about.php'),
-     '/contact' => require('controllers/contact.php'),  
-     '/notes' => require('controllers/notes.php'),
-     '/note' =>require('controllers/note.php'),
-     default => abort(),
-};
+$routes = require('routes.php');
+
+
+/**
+ * routeToController
+ * 
+ * list of routes in the routes file.
+ * Check the current uri and see if that uri is a key 
+ * within array of routes. If so direct to proper controller
+ *
+ * @param  mixed $uri 
+ * @param  mixed $routes
+ * @return void
+ */
+function routeToController($uri, $routes){
+
+    if(array_key_exists($uri, $routes)){
+        require $routes[$uri]; // get the appropriate controller to guide 
+    } else{
+        abort();
+    }
+}
 
 
 /**
@@ -34,7 +44,6 @@ match ($uri) {
  */
 function abort($status = 404){
     
-
     http_response_code($status);
     match ($status) {
             404 => require('views/404.view.php'), 
@@ -45,4 +54,8 @@ function abort($status = 404){
     
         die();
 }
+
+$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+
+routeToController($uri, $routes);
 
