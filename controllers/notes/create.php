@@ -1,16 +1,16 @@
 <?php
 
-require 'Validator.php';
+use Core\Database;
+use Core\Validator;
 
-//Dedicated file for environment config 
-$config = require 'config.php';
+
+$config = require base_path('config.php');
 
 //now we can pass configs for dev or prod
 $db = new Database($config['database']);
 
-
-$heading = 'Create a Note';
-
+//Store validation errors
+$errors = [];
 
 //Check to see if user submitted a new note 
 //REMEMBER TRUST NO USER INPUT EVER, SANATIZE 
@@ -18,8 +18,6 @@ $heading = 'Create a Note';
 //place Escape functions in view, htmlspecialchars what you output
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-    //Store validation errors
-    $errors = [];
     
     //Serverside validation of note body
     $input = $_POST['body'];
@@ -38,10 +36,10 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
             'user_id' => 1
         ]);
     }
-
 }
 
-
-
 //Controllers will require a view of course
-require 'views/notes/create.view.php';
+view('notes/create.view.php', [
+    'heading' => 'Create a Note',
+    'errors' => $errors
+]);

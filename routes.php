@@ -1,7 +1,7 @@
 <?php
 
 
-
+//ENDPOINTS directions to controllers 
 return [
     '/' => 'controllers/index.php', 
      '/about' => 'controllers/about.php',

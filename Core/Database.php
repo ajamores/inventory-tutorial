@@ -2,7 +2,10 @@
 //Connect to our MySQL database 
 //Initalize PDO PHP DATA OBJECTS
 
-//$dsn = data source name aka a string that declares your connection to db
+namespace Core;
+
+use PDO; // Tells PHP: "PDO means the BUILT-IN \PDO class, not Core\PDO"
+//Warning: require(C:\Users\aj_am\OneDrive\Documents\GitHub\inventory-tutorial\public/../Core\PDO.php): Failed to open stream: No such file or directory in C:\Users\aj_am\OneDrive\Documents\GitHub\inventory-tutorial\public\index.php on line 39
 
 
 //Connect to db, and execute query
@@ -23,7 +26,7 @@ class Database{
      */
     public function __construct($config, $username = 'root', $password = '')
     {
-
+        //$dsn = data source name aka a string that declares your connection to db
         $dsn = "mysql:" . http_build_query($config, '' , ';');
         
         //Refactor dsn so now we build the string cleaner: string(60) "mysql:host=localhost;port=3306;dbname=phpapp;charset=utf8mb4"

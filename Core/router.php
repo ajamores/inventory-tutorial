@@ -1,5 +1,7 @@
 <?php
 
+
+
 //The rotuer file will be deidcated to parsing the Uri and handling routing to controllers
 //LISTEN FOR URI or endpoints 
 //Check url and see if it matches any pages, map to appropriate controller
@@ -12,10 +14,6 @@
 //   ["query"]=>
 //   string(7) "foo=bar"
 // }
-
-
-
-$routes = require('routes.php');
 
 
 /**
@@ -32,7 +30,8 @@ $routes = require('routes.php');
 function routeToController($uri, $routes){
 
     if(array_key_exists($uri, $routes)){
-        require $routes[$uri]; // get the appropriate controller to guide 
+
+        require base_path($routes[$uri]); // get the appropriate controller to guide 
     } else{
         abort();
     }
@@ -46,14 +45,17 @@ function abort($status = 404){
     
     http_response_code($status);
     match ($status) {
-            404 => require('views/404.view.php'), 
-            403 => require('views/403.view.php'),
-            default => require('views/404.view.php'),  //dont know yet 
+            404 => require(base_path('views/404.view.php')), 
+            403 => require(base_path('views/403.view.php')),
+            default => require(base_path('views/404.view.php')), //dont know yet 
         };
     
     
         die();
 }
+
+
+$routes = require(base_path('routes.php'));
 
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 

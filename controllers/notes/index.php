@@ -1,8 +1,9 @@
 <?php
 
+use Core\Database; 
 
 //Dedicated file for environment config 
-$config = require 'config.php';
+$config = require base_path('config.php');
 
 
 //now we can pass configs for dev or prod
@@ -15,6 +16,10 @@ $query = 'SELECT * FROM notes where user_id = 1';
 $notes = $db->query($query)->getAll();
 
 
-$heading = " My Notes";
 
-require 'views/notes/index.view.php';
+
+//Controllers will require a view of course
+view('notes/index.view.php', [
+    'heading' => 'My Notes',
+    'notes' => $notes
+]);

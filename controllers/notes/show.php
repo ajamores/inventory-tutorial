@@ -1,8 +1,10 @@
 <?php
 
+use Core\Database;
+
 
 //Dedicated file for environment config 
-$config = require 'config.php';
+$config = require base_path('config.php');
 
 
 //now we can pass configs for dev or prod
@@ -25,9 +27,11 @@ authorize($note['user_id'] === $currentUser, 403);
 //     abort(403);
 // }
 
-$heading = "Note ID: $id";
+
 $body = $note['body'];
 
 
-
-require 'views/notes/show.view.php';
+view('notes/show.view.php', [
+    'heading' => 'Note ID: ' . $id,
+    'note' => $note,
+ ]);
