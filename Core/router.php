@@ -1,6 +1,6 @@
 <?php
 
-
+namespace Core;
 
 //The rotuer file will be deidcated to parsing the Uri and handling routing to controllers
 //LISTEN FOR URI or endpoints 
@@ -16,48 +16,87 @@
 // }
 
 
-/**
- * routeToController
- * 
- * list of routes in the routes file.
- * Check the current uri and see if that uri is a key 
- * within array of routes. If so direct to proper controller
- *
- * @param  mixed $uri 
- * @param  mixed $routes
- * @return void
- */
-function routeToController($uri, $routes){
+class Router {
 
-    if(array_key_exists($uri, $routes)){
+    protected $routes = [];
 
-        require base_path($routes[$uri]); // get the appropriate controller to guide 
-    } else{
-        abort();
+    
+    /**
+     * Helps method to contruct route
+     * with appropriate HTTP method and conroller.
+     * Called with each http method function 
+     * @param  mixed $method - HTTP request method
+     * @param  mixed $uri 
+     * @param  mixed $controller
+     * @return void
+     */
+    public function add($method, $uri, $controller){
+        $this->routes[] = [
+            'uri' => $uri,
+            'controller' => $controller,
+            'method' => $method
+        ];
+
+    }
+
+    public function get($uri, $controller){
+
+        $this->add('GET', $uri, $controller);
+    }
+
+    public function post($uri, $controller){
+
+        $this->add('POST', $uri, $controller);
+
+    }
+
+    public function put($uri, $controller){
+
+        $this->add('PUT', $uri, $controller);
+    }
+
+    public function patch($uri, $controller){
+
+        $this->add('PATCH', $uri, $controller);
+
+    }
+
+    public function delete($uri, $controller){
+
+        $this->add('DELETE', $uri, $controller);
+    }
+
+
+    /**
+     * 
+     */
+    public function route($uri, $method){
+
+        foreach($this->routes as $route){
+            if($route['uri'] === $uri && $route['method'] === strtoupper($method)){
+                return require base_path($route['controller']);
+            }
+        }
+        
+        //If it reaches here it cant find the controller and appropriate method
+        $this->about();
+
+
+    }
+
+    protected function about($status = 404){
+
+        http_response_code($status);
+        match ($status) {
+                404 => require(base_path('views/404.view.php')), 
+                403 => require(base_path('views/403.view.php')),
+                default => require(base_path('views/404.view.php')), //dont know yet 
+            };
+        
+        
+            die();
     }
 }
 
 
-/**
- * Handle http error status codes 
- */
-function abort($status = 404){
-    
-    http_response_code($status);
-    match ($status) {
-            404 => require(base_path('views/404.view.php')), 
-            403 => require(base_path('views/403.view.php')),
-            default => require(base_path('views/404.view.php')), //dont know yet 
-        };
-    
-    
-        die();
-}
-
-
-$routes = require(base_path('routes.php'));
-
-$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-
-routeToController($uri, $routes);
 

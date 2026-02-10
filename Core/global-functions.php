@@ -1,5 +1,8 @@
 <?php
 
+use Core\Response;
+
+
 /**
  * Die and dump 
  */
@@ -12,13 +15,28 @@ function dd($value) {
     die(); //Used to terminate script, for debugging checking global variables like $_SERVER
 }
 
-// dd($_SERVER);
+
+
+/**
+ * Handles http status code exceptions
+ */
+function abort($status = 404){
+    
+    http_response_code($status);
+    match ($status) {
+            404 => require(base_path('views/404.view.php')), 
+            403 => require(base_path('views/403.view.php')),
+            default => require(base_path('views/404.view.php')), //dont know yet 
+        };
+    
+    die();
+}
+
+
 
 //Problem: The nav links hover based on where the users are are still hardcoded. The above function
 //helps us to look up info or debug and find stuff like REQUEST_URI which indicates what page the user is on. 
 //We can use that to make the nav-links hover stuff dynamic
-
-
 /**
  * Check if url is  matches the current request uri
  */

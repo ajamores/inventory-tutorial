@@ -17,6 +17,8 @@
  */
 
 
+use Core\Router;
+
 //Path to root folder
 CONST BASE_PATH = __DIR__  . '/../'; //1.Current directory + go up a level
 
@@ -40,7 +42,19 @@ spl_autoload_register(function ($class){
 });
 
 
-require base_path('Core/router.php');
+$router = new Router();
+
+$routes = require(base_path('routes.php'));
+
+$uri = parse_url($_SERVER['REQUEST_URI'])['path'];
+
+
+$method = isset($_POST['_method']) ? $_POST['_method'] : $_SERVER['REQUEST_METHOD'];
+// dd($_POST);
+//Remember forms dont natively support nothing other than get and post
+//
+$router->route($uri, $method);
+
 
 
 
