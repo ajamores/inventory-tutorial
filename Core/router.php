@@ -10,7 +10,7 @@ namespace Core;
 //Urls can contain querys remember in apis how you request things so we must parse
 //array(2) {
 //   ["path"]=>
-//   string(6) "/about"
+//   string(6) "/abort"
 //   ["query"]=>
 //   string(7) "foo=bar"
 // }
@@ -79,12 +79,12 @@ class Router {
         }
         
         //If it reaches here it cant find the controller and appropriate method
-        $this->about();
+        $this->abort();
 
 
     }
 
-    protected function about($status = 404){
+    protected function abort($status = 404){
 
         http_response_code($status);
         match ($status) {

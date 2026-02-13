@@ -1,13 +1,19 @@
 <?php
 
-use Core\Database; 
-
-//Dedicated file for environment config 
-$config = require base_path('config.php');
+// use Core\Database;
 
 
-//now we can pass configs for dev or prod
-$db = new Database($config['database']);
+// //Dedicated file for environment config 
+// $config = require base_path('config.php');
+
+
+// //now we can pass configs for dev or prod
+// $db = new Database($config['database']);
+
+
+use Core\App;
+
+$db = App::resolve('Core\Database'); //replaces the above comments way better
 
 $query = 'SELECT * FROM notes where user_id = 1';
 

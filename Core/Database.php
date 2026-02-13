@@ -17,8 +17,7 @@ class Database{
     /**
      * __construct
      *
-     * Build out data source name and establish connection when we instansiate and everything is not dynamic
-     * except the mysql... for this tutorial we are just using this
+     * Build out data source name and establish connection when we instansiate 
      * @param  mixed $config - we can now pass envionmnet based on situation 
      * @param  mixed $username - you can now enter specific user name or use default values
      * @param  mixed $password - same thing for password 

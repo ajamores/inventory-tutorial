@@ -1,13 +1,11 @@
 <?php
 
-use Core\Database;
+use Core\App;
 
 
-//Dedicated file for environment config 
-$config = require base_path('config.php');
+//Using a container that contains database connection and config. That container is within the App class 
+$db = App::resolve('Core\Database');
 
-//now we can pass configs for dev or prod
-$db = new Database($config['database']);
 
 //For now lets assume this user is logged in 
 $currentUser = 1 ;
