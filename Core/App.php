@@ -4,7 +4,7 @@ namespace Core;
 
 class App{
 
-
+    //Makes the container singleton available anywhere in application
     protected static $container;
 
     public static function setContainer($container){
@@ -25,5 +25,6 @@ class App{
     public static function resolve($key){
         return static::container()->resolve($key);
     }
+
    
 }

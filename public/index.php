@@ -15,7 +15,7 @@
  * 
  *
  */
-
+session_start();
 
 use Core\Router;
 
@@ -46,7 +46,7 @@ require base_path('bootstrap.php');
 $router = new Router();
 $routes = require(base_path('routes.php'));
 
-
+// dd($_SERVER);
 //Grab just the path  of the uri not the queries 
 $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 

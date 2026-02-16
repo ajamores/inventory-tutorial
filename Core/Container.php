@@ -36,7 +36,7 @@ class Container{
         
     //Check if the key is there in first place
         if(!array_key_exists($key, $this->bindings)){
-            throw new \Exception("No matchig binding for {$key}");
+            throw new \Exception("No matching binding for {$key}");
         }
 
         //get the function script
