@@ -35,6 +35,7 @@ class Middleware{
             throw new \Exception("No matching middleware found for key: '$key'.");
         }
 
+        //Let intellisense show you the functions when you -> to $middleware
         (new $middleware)->handle();
     }
 }

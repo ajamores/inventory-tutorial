@@ -15,7 +15,7 @@ use Core\App;
 
 $db = App::resolve('Core\Database'); //replaces the above comments way better
 
-$query = 'SELECT * FROM notes where user_id = 1';
+$query = 'SELECT * FROM notes where user_id = 2';
 
 
     

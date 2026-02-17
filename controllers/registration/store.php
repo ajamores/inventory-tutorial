@@ -7,6 +7,8 @@ use Core\Validator;
 $email = $_POST['email'];
 $password = $_POST['password'];
 
+$db = App::resolve('Core\Database');
+
 
 //Validate Form Inputs
 $errors = [];
@@ -29,7 +31,6 @@ if(!empty($errors)){
 
 
 //Check if email already exists... must be unique
-$db = App::resolve('Core\Database');
 
     //If yes, redirect to a login page
 $result = $db->query("SELECT * FROM users WHERE email = :email", [
@@ -49,13 +50,11 @@ if($result){
         'first_name' => 'Testing',
         'last_name' => 'User',
         'email' => $email,
-        'password' => $password
+        'password' => password_hash($password, PASSWORD_BCRYPT) //IMPORTANT ALWAYS HASH 
     ]);
 
-    //Start session that user has logged in
-    $_SESSION['user'] = [
-        'email' => $email
-    ];
+    //Log in
+    login($user);
 
     header('location: /');
     exit();  //Good practice to kill the script  after redirect, exit to ensure no scenrio where th script continues being ran without the header

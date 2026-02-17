@@ -16,7 +16,7 @@ use Core\App;
 $db = App::resolve('Core\Database'); //replaces the above comments way better
 
 //For now lets assume this user is logged in 
-$currentUser = 1 ;
+$currentUser = 2 ;
 
 // dd($_GET);
 
