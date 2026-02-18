@@ -84,27 +84,18 @@ function view($path, $attributes){
 }
 
 
+
 /**
- * good practice is that you regenerate the session id.. remember the session file found in temp.
- * update the cookie and session file name just in case malicious user gets that id. 
+ * redirect
+ * When you dont have to re-render a page with data
+ * Use this method, to redirect the user to where they
+ * are suppoed to go. Otherwise use the view method 
+ * to ie. display form errors. 
+ *
+ * @param  mixed $endpoint
+ * @return void
  */
-function login($user){
-        //Start session that user has logged in
-    $_SESSION['user'] = [
-        'email' => $user['email'],
-    ];
-
-    session_regenerate_id(true ); // Here we update the session after logging in BEST PRACTICE 
+function redirect($endpoint){
+    header("location: $endpoint");
+    exit();
 }
-
-function logout(){
-
-    //clear the session
-    $_SESSION = [];
-    session_destroy();
-
-    $params = session_get_cookie_params();
-    setcookie('PHPSESSID', '', time() - 3600, $params['path'], $params['domain'], $params['secure'], $params['httponly'] );
-
-}
-

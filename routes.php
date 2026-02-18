@@ -21,36 +21,36 @@
 
 //NOTE THE NAMING CONVENTIONS USED FOR EACH CONTROLLER TYPE ... store, show, destroy
 
-$router->get('/', 'controllers/index.php');
-$router->get('/', 'controllers/index.php');
-$router->get('/about', 'controllers/about.php');
-$router->get('/contact', 'controllers/contact.php');
-$router->get('/notes', 'controllers/notes/index.php')->only('auth');
-$router->get('/note', 'controllers/notes/show.php');
-$router->get('/notes/create', 'controllers/notes/create.php');
-$router->get('/note/edit', 'controllers/notes/edit.php');
+$router->get('/', 'index.php');
+$router->get('/', 'index.php');
+$router->get('/about', 'about.php');
+$router->get('/contact', 'contact.php');
+$router->get('/notes', 'notes/index.php')->only('auth');
+$router->get('/note', 'notes/show.php');
+$router->get('/notes/create', 'notes/create.php');
+$router->get('/note/edit', 'notes/edit.php');
 
 
 //RESTFUL CONVENTION if you want to make a new note
 //make a post request to the notes resource
 //Route to controller responsible for storing notes... note the naming conventions store
-$router->post('/notes', 'controllers/notes/store.php');
+$router->post('/notes', 'notes/store.php');
 
 //Route to controller for deleting notes note words like destroy, show, create etc. 
-$router->delete('/note', 'controllers/notes/destroy.php');
+$router->delete('/note', 'notes/destroy.php');
 
 //Update Note
-$router->patch('/note', 'controllers/notes/update.php');
+$router->patch('/note', 'notes/update.php');
 
 
 //Register Routes.... how can we make certain pages 
-$router->get('/register', 'controllers/registration/create.php')->only('guest');
-$router->post('/register', 'controllers/registration/store.php')->only('guest');
+$router->get('/register', 'registration/create.php')->only('guest');
+$router->post('/register', 'registration/store.php')->only('guest');
 
 //Login Routes .... /sessions can be like alias for login.. really up to you 
-$router->get('/login', 'controllers/session/create.php')->only('guest');
-$router->post('/session', 'controllers/session/store.php')->only('guest');
-$router->delete('/session', 'controllers/session/destroy.php')->only('auth');
+$router->get('/login', 'session/create.php')->only('guest');
+$router->post('/session', 'session/store.php')->only('guest');
+$router->delete('/session', 'session/destroy.php')->only('auth');
 
 
 
