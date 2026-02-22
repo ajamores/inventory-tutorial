@@ -45,10 +45,22 @@ class Validator{
      * @param  mixed $value
      * @return void
      */
-    public static function email($value){
+    public static function email(string $value): bool{
 
 
         return filter_var($value, FILTER_VALIDATE_EMAIL);
+    }
+    
+    /**
+     * greaterThan
+     *
+     * Determine if value is greater than specified number
+     * @param  mixed $value - to check 
+     * @param  mixed $number - benchmark 
+     * @return bool
+     */
+    public static function greaterThan(int $value, int $number): bool{
+        return $value > $number;
     }
 
   

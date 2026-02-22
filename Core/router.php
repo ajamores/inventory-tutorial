@@ -131,6 +131,10 @@ class Router {
         
             die();
     }
+
+    public function previousUrl(){
+        return redirect($_SERVER['HTTP_REFERER']);
+    }
 }
 
 

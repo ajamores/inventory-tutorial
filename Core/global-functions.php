@@ -1,6 +1,8 @@
 <?php
 
 use Core\Response;
+use Core\Session;
+
 
 
 /**
@@ -98,4 +100,13 @@ function view($path, $attributes){
 function redirect($endpoint){
     header("location: $endpoint");
     exit();
+}
+
+/**
+ * Common convention to use old for old form data.... thats how its done
+ * in laravel
+ */
+function old($key, $default = ''){
+    
+    return Session::get('old')[$key] ?? $default;
 }

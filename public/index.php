@@ -15,15 +15,22 @@
  * 
  *
  */
-session_start();
+
 
 use Core\Router;
+use Core\Session;
+use Core\ValidationException;
 
 //Path to root folder
 CONST BASE_PATH = __DIR__  . '/../'; //1.Current directory + go up a level
 
+require BASE_PATH . '/vendor/autoload.php';
+
+session_start();
 
 require BASE_PATH . 'Core/global-functions.php';
+
+
 
 
 
@@ -32,14 +39,17 @@ require BASE_PATH . 'Core/global-functions.php';
 //VERY IMPORTANT with this we load what we require when 
 //we use only. For scripts that require the Database we autoload
 //it when we need it
-spl_autoload_register(function ($class){
+// spl_autoload_register(function ($class){   //USE THE VENDER AUTOLOAD INSTEAD ABOVE 
     
-    //Implementing namespace Core in Database.php changes path to Core\Database
-    $class = str_replace('\\', DIRECTORY_SEPARATOR, $class );
+//     //Implementing namespace Core in Database.php changes path to Core\Database
+//     $class = str_replace('\\', DIRECTORY_SEPARATOR, $class );
  
     
-    require base_path($class . '.php');
-});
+//     require base_path($class . '.php');
+// });
+
+
+
 
 require base_path('bootstrap.php');
 
@@ -53,11 +63,22 @@ $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
 //Remember that html only supports POST AND GET on forms so we pass values to the post as a workaround 
 $method = isset($_POST['_method']) ? $_POST['_method'] : $_SERVER['REQUEST_METHOD'];
 
-// dd($_POST);
-//Remember forms dont natively support nothing other than get and post
-//
-$router->route($uri, $method);
+try{
+    $router->route($uri, $method);
+
+} catch(ValidationException $exception){
+    //We flash the error when we try to route here instead of placeing this 
+    //logic in every controoller
+    Session::flash('errors', $exception->errors);
+    Session::flash('old', $exception->old );
+    
+    redirect($router->previousUrl());
+}
 
 
+
+//Here we clear off temporary session flash errors AFTER
+//We route user to destination
+Session::unflash();
 
 

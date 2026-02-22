@@ -3,6 +3,7 @@
 use Http\Forms\LoginForm;
 use Core\Authenticator;
 
+
 $email = $_POST['email'];
 $password = $_POST['password'];
 
@@ -13,27 +14,31 @@ $password = $_POST['password'];
  */
 
 
-//1. Form validation 
-$form = new LoginForm();
+
+//We moved the try catch up a level in the public.index.php file so we 
+//can dyncamically catch all route errors in one place
+
+//Now we properly delegfate all the responsiblities to the form and authenticating
 
 //Check if the form input is valid in first place
-if($form->validate($email, $password)){
-
-    $auth = new Authenticator();
-    //2. Check is user exists and see it if password matches
-    //log in the user if password matches 
-    if($auth->attempt($email, $password)){
-        //Success
-        //Redirect them notice Redirect the VERB, this can help you dictate a proper function name... 
-        //What does it do??
-        redirect('/');
-    }
-
-    $form->error('auth', 'Incorrect email address or password');
-} 
-
-//Failed attempt to login 
-return view('session/create.view.php', [
-    'errors' => $form->errors(),
-    'heading' => 'Log In'
+$form = LoginForm::validate([
+    'email' => $email,
+    'password' => $password,
 ]);
+
+
+
+$auth = new Authenticator();
+//2. Check is user exists and see it if password matches
+//log in the user if password matches 
+if(!$auth->attempt($email, $password)){
+    $form->error('auth', 'Invalid email or password.')
+    ->throw();
+}
+
+//Success
+//Redirect them notice Redirect the VERB, this can help you dictate a proper function name... 
+//What does it do??
+redirect('/');
+
+
